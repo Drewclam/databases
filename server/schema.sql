@@ -3,32 +3,36 @@ CREATE DATABASE chat;
 
 USE chat;
 
-CREATE TABLE messages (
-
-  /* Describe your table here.*/
-);
 
 /* Create other tables and define schemas for them here! */
 CREATE TABLE users (
-  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  userID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   username TEXT
 );
 
-CREATE TABLE users_rooms (
+-- CREATE TABLE users_rooms (
 
-);
+-- );
 
 CREATE TABLE rooms (
-
+  roomID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  roomname TEXT
 );
 
+CREATE TABLE messages (
+  messageID int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  message TEXT,
+  userID int NOT NULL FOREIGN KEY REFERENCES users(userID) -- DOESNT WORK, HOWTO PUT FORIEGN KEYS???
+  -- rooms_id NOT NULL,
+  -- FOREIGN KEY (rooms_id) REFERENCES rooms(id)
+);
 /* TEST ON SQL SERVER ----->>>>  mysql -u root < path/to/schema.sql      */
 
 /*  Execute this file from the command line by typing:
  *    mysql -u root < server/schema.sql
  *  to create the database and the tables.*/
 /*
-You can also run mysql in batch mode. To do this, put the statements you want to run in a file, then tell mysql to read its input from the file:
+You can also run mysql in batch mode. To do this, put the statements you want to run in a file, then tell mysql to read its input from then file:
           shell> mysql < batch-file
 
 If you need to specify connection parameters on the command line, the command might look like this:
