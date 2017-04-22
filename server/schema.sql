@@ -6,26 +6,34 @@ USE chat;
 
 /* Create other tables and define schemas for them here! */
 CREATE TABLE users (
-  userID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  username TEXT
+  id INT NOT NULL AUTO_INCREMENT,
+  username TEXT,
+  PRIMARY KEY(id)
 );
 
--- CREATE TABLE users_rooms (
-
--- );
-
 CREATE TABLE rooms (
-  roomID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  roomname TEXT
+  id INT NOT NULL AUTO_INCREMENT,
+  roomname TEXT,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE users_rooms (
+  fk_userId int NOT NULL,
+  FOREIGN KEY(fk_userId) REFERENCES users(id),
+  fk_roomId int NOT NULL,
+  FOREIGN KEY(fk_roomId) REFERENCES rooms(id)
 );
 
 CREATE TABLE messages (
-  messageID int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
   message TEXT,
-  userID int NOT NULL FOREIGN KEY REFERENCES users(userID) -- DOESNT WORK, HOWTO PUT FORIEGN KEYS???
-  -- rooms_id NOT NULL,
-  -- FOREIGN KEY (rooms_id) REFERENCES rooms(id)
+  fk_userId int NOT NULL,
+  FOREIGN KEY(fk_userId) REFERENCES users(id),
+  fk_roomId int NOT NULL,
+  FOREIGN KEY(fk_roomId) REFERENCES rooms(id)
 );
+-- mysql -u root -p to login to sql ------!_!_!_!_!_!_!_!__!_!_
+
 /* TEST ON SQL SERVER ----->>>>  mysql -u root < path/to/schema.sql      */
 
 /*  Execute this file from the command line by typing:
