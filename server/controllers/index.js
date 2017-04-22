@@ -1,3 +1,4 @@
+// AKA EVENT LISTENERS/METHODS?
 var models = require('../models');
 
 module.exports = {

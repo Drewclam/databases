@@ -1,4 +1,6 @@
+// THIS IS MESSAGES AND USERS MODELS
 var db = require('../db');
+
 
 module.exports = {
   messages: {
