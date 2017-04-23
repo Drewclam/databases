@@ -36,7 +36,7 @@ CREATE TABLE messages (
 );
 
 -- INSERT INTO users(name) VALUES('Andrew');
--- INSERT INTO rooms(name) VALUES('Lobby');
+INSERT INTO rooms(name) VALUES('main');
 -- INSERT INTO messages(text, userId, roomId) VALUES('Backend help me!!',
 -- (select id from users WHERE users.name = 'Andrew'),
 -- (select id from rooms WHERE rooms.name = 'Lobby'));

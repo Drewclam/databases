@@ -26,6 +26,14 @@ var queryStrings = {
     post: 'INSERT INTO messages(text, userId, roomId) VALUES \
     (?, (select id from users where users.name = ?), (select id from rooms where rooms.name = ?))',
     createRoom: 'INSERT INTO rooms(name) VALUES(?)'
+    // IF EXISTS (SELECT * FROM Bookings WHERE FLightID = @Id)
+    // BEGIN
+    //     --UPDATE HERE
+    // END
+    // ELSE
+    // BEGIN
+    //    -- INSERT HERE
+    // END
   },
   users: {
     get: 'SELECT * FROM users',
