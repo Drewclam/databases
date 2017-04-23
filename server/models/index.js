@@ -1,5 +1,6 @@
 // THIS IS MESSAGES AND USERS MODELS
 var db = require('../db');
+var mysql = require('mysql');
 // Models will interact with SQL database
 // we should be getting passed either the actual message object
   // eg. {user: 'vikki', room: 'lobby', message: 'hi'}
@@ -19,50 +20,67 @@ var db = require('../db');
   // tell chatterbox server to send stuff to ourselves (localhost ip) at this port
   // chatterbox client would query the server which pulls from MYSQL
 
+var queryStrings = {
+  messages: {
+    get: 'SELECT * from messages',
+    post: 'INSERT INTO messages(text, userId, roomId) VALUES \
+    (?, (select id from users where users.name = ?), (select id from rooms where rooms.name = ?))',
+    createRoom: 'INSERT INTO rooms(name) VALUES(?)'
+  },
+  users: {
+    get: 'SELECT * FROM users',
+    post: 'INSERT INTO users(name) VALUES(?)'
+  }
+};
+
+var sqlConnection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'chat'
+});
+
 module.exports = {
   messages: {
-    get: function () {
-      res.writeHead(201, headers);
-      res.end(JSON.stringify(results));
-    }, // a function which produces all the messages
-    post: function () {
-      var stream = '';
-      req.on('data', (chunk) => {
-        console.log('INSIDE ON DATA EVENT ', chunk);
-        stream += chunk;
+    get: function (body, res) {
+      sqlConnection.query(queryStrings.messages.get, (err, result) => {
+        if (err) {
+          throw err;
+        }
+        res.end(result);
       });
-
-      req.on('end', () => {
-        var results = [];
-        stream = JSON.parse(stream);
-        console.log(stream);
-        results.push({stream});
-        res.writeHead(201, headers);
-        res.end(JSON.stringify(results));
+    },
+    post: function (body, res) {
+      sqlConnection.query(queryStrings.messages.createRoom, body.roomname, (err, result) => {
+        if (err) {
+          throw err;
+        }
+        var posted = sqlConnection.query(queryStrings.messages.post, [body.message, body.username, body.roomname], (err, result) => {
+          if (err) {
+            throw err;
+          }
+          console.log(posted.values);
+          res.end(posted.values[0]);
+        });
       });
-    } // a function which can be used to insert a message into the database
+    }
   },
-
   users: {
     // Ditto as above.
-    get: function (req, res) {
-      res.writeHead(201, headers);
-      res.end(JSON.stringify(results));
-    },
-    post: function (req, res) {
-      var stream = '';
-      req.on('data', (chunk) => {
-        console.log('INSIDE ON DATA EVENT ', chunk);
-        stream += chunk;
+    get: function (body, res) {
+      sqlConnection.query(queryStrings.users.get, (err, result) => {
+        if (err) {
+          throw err;
+        }
+        res.end(result);
       });
-
-      req.on('end', () => {
-        var results = [];
-        stream = JSON.parse(stream);
-        console.log(stream);
-        results.push({stream});
-        res.writeHead(201, headers);
-        res.end(JSON.stringify(results));
+    },
+    post: function (body, res) {
+      sqlConnection.query(queryStrings.users.post, body.username, (err, result) => {
+        if (err) {
+          throw err;
+        }
+        res.end('helolo');
       });
     }
   }

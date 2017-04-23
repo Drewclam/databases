@@ -1,4 +1,6 @@
 -- Edit the file server/schema.sql to define, in SQL, the tables you have visually designed. Load the schema into your MySQL server with mysql -u root < path/to/schema.sql.
+DROP DATABASE chat;
+
 CREATE DATABASE chat;
 
 USE chat;
@@ -7,31 +9,38 @@ USE chat;
 /* Create other tables and define schemas for them here! */
 CREATE TABLE users (
   id INT NOT NULL AUTO_INCREMENT,
-  username TEXT,
+  name TEXT,
   PRIMARY KEY(id)
 );
 
 CREATE TABLE rooms (
   id INT NOT NULL AUTO_INCREMENT,
-  roomname TEXT,
+  name TEXT,
   PRIMARY KEY (id)
 );
 
 CREATE TABLE users_rooms (
-  fk_userId int NOT NULL,
-  FOREIGN KEY(fk_userId) REFERENCES users(id),
-  fk_roomId int NOT NULL,
-  FOREIGN KEY(fk_roomId) REFERENCES rooms(id)
+  userId INT NOT NULL,
+  FOREIGN KEY(userId) REFERENCES users(id),
+  roomId INT NOT NULL,
+  FOREIGN KEY(roomId) REFERENCES rooms(id)
 );
 
 CREATE TABLE messages (
-  id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  message TEXT,
-  fk_userId int NOT NULL,
-  FOREIGN KEY(fk_userId) REFERENCES users(id),
-  fk_roomId int NOT NULL,
-  FOREIGN KEY(fk_roomId) REFERENCES rooms(id)
+  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  text TEXT,
+  userId INT NOT NULL,
+  FOREIGN KEY(userId) REFERENCES users(id),
+  roomId INT NOT NULL,
+  FOREIGN KEY(roomId) REFERENCES rooms(id)
 );
+
+-- INSERT INTO users(name) VALUES('Andrew');
+-- INSERT INTO rooms(name) VALUES('Lobby');
+-- INSERT INTO messages(text, userId, roomId) VALUES('Backend help me!!',
+-- (select id from users WHERE users.name = 'Andrew'),
+-- (select id from rooms WHERE rooms.name = 'Lobby'));
+
 -- mysql -u root -p to login to sql ------!_!_!_!_!_!_!_!__!_!_
 
 /* TEST ON SQL SERVER ----->>>>  mysql -u root < path/to/schema.sql      */

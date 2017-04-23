@@ -13,12 +13,12 @@ module.exports = {
 
     get: function (req, res) {
       // a function which handles a get request for all messages
-      models.messages.get(req, res);
+      models.messages.get(req.body, res);
     },
 
     post: function (req, res) {
       // a function which handles posting a message to the database
-      models.messages.post(req, res);
+      models.messages.post(req.body, res);
     }
   },
 
@@ -31,10 +31,10 @@ module.exports = {
       // maybe pass our parsed data and the response object to the model methods?
         // don't need the request object anymore
       // give the model the relevant data and the response object so it can end the request
-      models.users.get(req, res);
+      models.users.get(req.body, res);
     },
     post: function (req, res) {
-      models.users.post(req, res);
+      models.users.post(req.body, res);
     }
   }
 };
